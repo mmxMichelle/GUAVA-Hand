@@ -1,0 +1,67 @@
+MODEL:
+    NAME: 'Gen_Ubody'
+    sh_degree: 0 #shs ((sh_degree+1)**2)*3   2  1  0
+    color_dim: &color_dim 32 # ((sh_degree+1)**2)*3     27 12 32
+
+    uvmap_size: 512 #uvmap size for gaussians
+    feature_img_size: 518 #img size for extrating feature map 14*xx
+    feature_part_size: 280
+    image_size: &image_size 512
+    invtanfov: 24
+
+    dino_out_dim: 32 #256
+    uv_out_dim: 96   #768
+    smplx_fea_dim: 128 #256
+    prj_out_dim: 128
+    global_vertex_dim: 256
+    opacity_threshold: 0.001
+    bg_color: 0
+
+    add_teeth: True
+    flame_assets_dir: 'assets/FLAME'
+    smplx_assets_dir: 'assets/SMPLX'
+    mano_assets_dir: 'assets/MANO'
+
+    refiner_type: 'styleunet'
+    styleunet:
+        in_size: *image_size
+        in_dim: *color_dim
+        out_dim: 3
+        out_size: *image_size
+        num_style_feat: 512
+        num_mlp: 8
+        channel_scale: 1
+        small: True
+
+TRAIN:
+    exp_str: 'training/formal_full_method'
+    batch_size: 6
+    train_iter: 200000
+    check_interval: 10000
+
+OPTIMIZE:
+    name: 'Adam'
+    lr_decay_rate: 0.03
+    lr_decay_iter: 200000
+    learning_rate: 1.0e-4
+    lambda_codebook: 1.0
+    lambda_l1: 1.0
+    lambda_perpetual: 0.025
+
+    lambda_head_crop: 0.25
+    lambda_hand_crop: 0.1
+    lambda_hand_ssim: 0.1
+    lambda_local_xyz: 0.01
+    lambda_local_scale: 1
+
+    perpetual_increase_iter: 10000
+    lambda_perpetual_high: 0.05
+    threshold_local_xyz: 3.0
+    threshold_scale: 0.6
+
+DATASET:
+    NAME: 'Ubody_0'
+    origin_image_size: 1024
+    head_crop_size: 512
+    hand_crop_size: 512
+    data_path: '/path/to/processed/how2sign'

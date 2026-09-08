@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.pytest_cache/
+
+# Environments
+.venv/
+venv/
+env/
+
+# Training / evaluation outputs
+outputs/
+checkpoints/
+renders/
+logs/
+slurm_logs/
+slurm-*.out
+slurm-*.err
+
+# Model checkpoints
+*.pt
+*.pth
+*.ckpt
+
+# Tracking / large generated data
+*.mp4
+*.avi
+*.mov
+*.lmdb
+
+# Local experiment artefacts
+experiment_records/
+
+# Restricted model assets
+assets/SMPLX/*.npz
+assets/SMPLX/*.pkl
+assets/SMPLX/*.npy
+assets/FLAME/**/*.pkl
+assets/FLAME/**/*.npz
+assets/FLAME/**/*.npy
+
+# Editors / OS
+.DS_Store
+.vscode/
+.idea/
+
+# Local backup files
+*.bak
+*.bak_*
+*.before_*
+*~
