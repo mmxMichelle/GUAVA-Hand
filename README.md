@@ -120,6 +120,31 @@ GUAVA is distributed under the Apache License 2.0. The upstream license and copy
 
 ---
 
+## Environment
+
+The formal GUAVA-Hand experiments were run in an Apptainer environment based
+on the PyTorch 24.02 container.
+
+The recorded core runtime was:
+
+- Python 3.10.12
+- PyTorch 2.3.0a0+ebedce2
+- CUDA 12.3
+- cuDNN 9.0
+- NumPy 1.24.4
+- torchvision 0.18.0a0
+- OpenCV 4.7.0
+- PyTorch3D 0.7.7
+
+For the exact runtime snapshot, see
+[`environment/versions.txt`](environment/versions.txt).
+
+For environment notes, see
+[`environment/README.md`](environment/README.md).
+
+For the complete experimental reproduction protocol, see
+[`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md).
+
 ## Installation
 
 The implementation follows the original GUAVA software stack.
