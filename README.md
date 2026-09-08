@@ -191,29 +191,116 @@ cd ..
 
 ---
 
-## Required Model Assets
+## Required External Resources
 
-Restricted parametric-model assets are **not redistributed** in this repository.
+GUAVA-Hand requires several external datasets, model assets, pretrained
+checkpoints, and evaluation models that are **not redistributed in this
+repository**.
 
-The implementation expects:
+| Resource | Purpose | Setup |
+| --- | --- | --- |
+| **How2Sign** | Training and evaluation data | Obtain from the official How2Sign release and process with GUAVA/EHM-Tracker |
+| **EHM-Tracker outputs** | Tracked body/hand/face parameters | Produce from How2Sign sequences using the pinned EHM-Tracker submodule |
+| **SMPL-X** | Body model | Place under `assets/SMPLX/` |
+| **MANO** | Hand model | Place under `assets/MANO/` |
+| **FLAME** | Head/face model | Place under `assets/FLAME/` |
+| **GUAVA `best_160000.pt`** | Continuation-training initialization | Supply with `--basemodel` |
+| **EHM-Tracker pretrained assets** | Tracking preprocessing | Follow `EHM-Tracker/README.md` |
+| **DINOv2 ViT-B/14** | Temporal consistency evaluation | Obtain through PyTorch Hub or a local TorchHub cache |
+| **InsightFace / ArcFace `buffalo_l`** | Cross-reenactment identity evaluation | Supply using `--insightface_root` |
 
-```text
-assets/
-├── SMPLX/
-├── MANO/
-└── FLAME/
-```
+Official upstream resources:
 
-Please obtain SMPL-X, MANO, and FLAME from their respective official sources and follow the upstream GUAVA setup instructions for the expected filenames and directory structure.
+- How2Sign: <https://how2sign.github.io/>
+- GUAVA: <https://github.com/Pixel-Talk/GUAVA>
+- EHM-Tracker: <https://github.com/Pixel-Talk/EHM-Tracker>
+- SMPL-X: <https://smpl-x.is.tue.mpg.de/>
+- MANO: <https://mano.is.tue.mpg.de/>
+- FLAME: <https://flame.is.tue.mpg.de/>
+- DINOv2: <https://github.com/facebookresearch/dinov2>
+- InsightFace: <https://github.com/deepinsight/insightface>
 
-The repository also does not redistribute:
+### Required GUAVA initialization checkpoint
 
-- GUAVA pretrained checkpoints
-- How2Sign images or videos
-- processed training datasets
-- tracking outputs
-- experiment checkpoints
-- rendered evaluation outputs
+The matched continuation experiments start from:
+
+    best_160000.pt
+    global_iter = 160000
+    SHA256 = c2ffe92cc01314eb75a48b98a21c07d0636b22e40d1e7108fee7444caf3bc6a1
+
+The checkpoint is an external GUAVA resource and is not redistributed here.
+
+The formal continuation protocol restores the model weights, renderer weights,
+and global training iteration from this checkpoint. The optimizer and
+learning-rate scheduler are newly initialized for the continuation run.
+
+### Expected model assets
+
+The GUAVA-Hand configuration expects the body-model assets in:
+
+    assets/
+    ├── SMPLX/
+    ├── MANO/
+    └── FLAME/
+
+The exact filenames inside these directories follow the upstream GUAVA and
+EHM-Tracker setup.
+
+### Frozen training split
+
+The formal continuation experiments use the same frozen How2Sign TRAIN split:
+
+    training entries   = 100002
+    validation entries = 2235
+
+    SHA256(dataset_frames.json):
+    d577aa3771189947c473e6909dfbffaa6053b3af23da3efbdc44dcb3266a63b0
+
+Metadata for this split are provided in:
+
+    protocols/train_subset_metadata.json
+
+The full How2Sign-derived `dataset_frames.json` is not redistributed in this
+repository.
+
+The published checksum can verify that an existing copy is the exact frozen
+manifest used by the dissertation, but a checksum cannot reconstruct the
+100,002 selected frame identifiers by itself.
+
+### Frozen evaluation protocols
+
+The public repository contains the frozen evaluation manifests:
+
+    protocols/self_test_178.txt
+    protocols/cross_pairs_80.tsv
+    protocols/efficiency_10.txt
+
+They define:
+
+- the 178 fixed self-reenactment TEST sequences;
+- the 80 fixed cross-reenactment source-driver pairs;
+- the 10 fixed sequences used for the unified efficiency benchmark.
+
+The same cohorts are used across compared methods.
+
+### Complete reproduction instructions
+
+The command-level reproduction procedure is documented in:
+
+[`docs/REPRODUCIBILITY.md`](docs/REPRODUCIBILITY.md)
+
+It covers:
+
+1. external-resource preparation;
+2. frozen-protocol verification;
+3. continuation training;
+4. self-reenactment rendering;
+5. full-image and hand-centric evaluation;
+6. cross-reenactment evaluation;
+7. DINOv2 temporal consistency;
+8. paired bootstrap analysis;
+9. computational-efficiency benchmarking.
+
 
 ---
 
@@ -390,7 +477,7 @@ Key design principles include:
 - a fixed self-reenactment test cohort;
 - a fixed cross-reenactment pair manifest;
 - predefined 200k checkpoints for matched ablation comparison;
-- shared tracking-derived regional annotations;
+- the same predefined evaluation protocol across compared methods;
 - fixed sequence-level bootstrap seeds;
 - identical sequence subsets for computational-efficiency comparison.
 
