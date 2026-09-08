@@ -1,0 +1,12 @@
+GUAVA-Hand base runtime
+=======================
+
+Container base: PyTorch 24.02
+Python: 3.10.12
+PyTorch: 2.3.0a0+ebedce2
+CUDA build: 12.3
+cuDNN: 90000
+NumPy: 1.24.4
+torchvision: 0.18.0a0
+OpenCV: 4.7.0
+PyTorch3D: 0.7.7

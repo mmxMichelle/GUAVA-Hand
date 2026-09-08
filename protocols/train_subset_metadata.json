@@ -1,0 +1,21 @@
+{
+  "dataset": "How2Sign",
+  "split_manifest": "dataset_frames.json",
+  "num_train_entries": 100002,
+  "num_valid_entries": 2235,
+  "train_signer_counts": {
+    "1": 12500,
+    "11": 12500,
+    "2": 12501,
+    "3": 12501,
+    "4": 12501,
+    "5": 12500,
+    "8": 12499,
+    "9": 12500
+  },
+  "valid_signer_counts": {
+    "4": 2235
+  },
+  "sha256": "d577aa3771189947c473e6909dfbffaa6053b3af23da3efbdc44dcb3266a63b0",
+  "note": "This metadata describes the frozen dataset_frames.json used by the matched GUAVA-Hand continuation-training experiments. Raw How2Sign data are not redistributed."
+}
