@@ -1,3 +1,4 @@
 [submodule "EHM-Tracker"]
 	path = EHM-Tracker
-	url = https://github.com/Pixel-Talk/EHM-Tracker.git
+	url = https://github.com/mmxMichelle/EHM-Tracker.git
+	branch = experiment/depth-aware-part-ordering
